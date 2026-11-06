@@ -36,31 +36,52 @@ class Seal {
   constructor(startX, startY) {
     this.x = startX;
     this.y = startY;
+    this.xUpdate = this.x
+    this.yUpdate = this.y
+    this.scale = -1
     // add properties for your dancer here:
     //..
     //..
     //..
   }
   update() {
-    // update properties here to achieve
-    // your dancer's desired moves and behaviour
-    translate(
-      map(sin(frameCount * 0.005), -1, 1, -width / 2+200, width / 2-200),
-      map(cos(frameCount * 0.13), -1, 1, -50, 0)
-    );
+  this.xUpdate = map(
+    sin(frameCount * 0.005),
+    -1, 1,
+    -width / 2 + 200,
+    width / 2 - 200
+  );
 
-    scale(1, 1 + sin(frameCount * 0.13 ) * 0.13);
+  this.yUpdate = map(
+    cos(frameCount * 0.13),
+    -1, 1,
+    -50, 0
+  );
+
+  if (cos(frameCount * 0.005) > 0) {
+    this.scale = -1;
+  } else {
+    this.scale = 1;
   }
+}
   display() {
     // the push and pop, along with the translate
     // places your whole dancer object at this.x and this.y.
     // you may change its position on line 19 to see the effect.
-    push();
-    translate(this.x, this.y+100);
-    // ******** //
-    // ⬇️ draw your dancer from here ⬇️
-    scale(0.8);
-    noStroke();
+     push();
+
+  translate(
+    this.x + this.xUpdate,
+    this.y + 100 + this.yUpdate
+  );
+
+  scale(this.scale, 1);
+
+  scale(1, 1 + sin(frameCount * 0.13) * 0.13);
+
+  scale(0.8);
+
+  noStroke();
 
     // Tail
     fill(255);
